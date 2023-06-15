@@ -6,12 +6,19 @@ Phầm mềm quản lý nhân viên bào gồm các chức năng:
 - Thêm mới/ Sửa/Xóa nhân viên trong hệ thống.
 - Phân trang danh sách nhân viên, nhân bản nhân viên
 - Xuất dữ liệu ra excel
+<br/>
 Công nghệ sử dụng:
-• UI Component Framework: HTML/ElementVue. 
-• JS Library: VueJS. 
-• API Service: SpringBoot. 
+<br/>
+• UI Component Framework: HTML/ElementVue.
+<br/>
+• JS Library: VueJS.
+<br/>
+• API Service: SpringBoot.
+<br/>
 • Database: MySQL
+<br/>
 • Sử dụng Spring data JPA để tương tác với CSDL
+<br/>
 Tổng hợp API:      
          
 DEMO WEB
