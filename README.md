@@ -25,7 +25,7 @@ DEMO WEB <br/>
 ⦁	Giao diện danh sách: <br/>
  
 2.Form thêm nhân viên <br/>
- 
+ <image src="src/main/resources/image/gg.PNG"/>
 
 ⦁	Bên cạnh nút sửa có chức năng: <br/>
  
