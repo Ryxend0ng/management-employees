@@ -19,15 +19,15 @@ Công nghệ sử dụng:
 <br/>
 • Sử dụng Spring data JPA để tương tác với CSDL
 <br/>
-Tổng hợp API:      
+Tổng hợp API:      <br/>
          
-DEMO WEB
-⦁	Giao diện danh sách:
+DEMO WEB <br/>
+⦁	Giao diện danh sách: <br/>
  
-2.Form thêm nhân viên
+2.Form thêm nhân viên <br/>
  
 
-⦁	Bên cạnh nút sửa có chức năng:
+⦁	Bên cạnh nút sửa có chức năng: <br/>
  
 ⦁	Form thông báo validate 
  
