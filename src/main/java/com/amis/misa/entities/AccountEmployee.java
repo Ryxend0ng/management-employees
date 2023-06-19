@@ -50,7 +50,7 @@ public class AccountEmployee extends BaseEntity implements UserDetails{
 	@JoinColumn(name="employee_id")
 	private Employee employee;
 	
-	@OneToMany(mappedBy = "accountEmployee",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "accountEmployee",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	List<UserRole> userRoles=new ArrayList<UserRole>();
 	
 	public void addUserRole(UserRole user) {
@@ -97,6 +97,6 @@ public class AccountEmployee extends BaseEntity implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }

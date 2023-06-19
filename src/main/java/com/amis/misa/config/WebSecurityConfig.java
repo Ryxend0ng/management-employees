@@ -34,8 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 				// các request kiểu: "/admin/" phải đăng nhập
 
-				.antMatchers("/api/v1/Employees/**").permitAll()
-				
+				.antMatchers("/api/v1/Employees/filter/**").permitAll()
+				.antMatchers("/api/v1/Employees/insert").hasAnyAuthority("ADMIN")
+				.antMatchers("/api/v1/Employees/update").hasAnyAuthority("ADMIN")
+				.antMatchers("/api/v1/Employees/NewEmployeeCode").hasAnyAuthority("ADMIN")
 				.and()
 
 				// cấu hình trang đăng nhập
