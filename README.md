@@ -2,6 +2,7 @@
 Quản Lý Nhân Viên
 I, các chức năng:
 Phầm mềm quản lý nhân viên bào gồm các chức năng:
+- Đăng nhập, phân quyền
 - Xem, tìm kiếm nhân viên theo mã, tên hoặc số điện thoại
 - Thêm mới/ Sửa/Xóa nhân viên trong hệ thống.
 - Phân trang danh sách nhân viên, nhân bản nhân viên
@@ -13,7 +14,7 @@ Công nghệ sử dụng:
 <br/>
 • JS Library: VueJS.
 <br/>
-• API Service: SpringBoot.
+• API Service: SpringBoot, Spring security,Spring Data JPA
 <br/>
 • Database: MySQL
 <br/>
