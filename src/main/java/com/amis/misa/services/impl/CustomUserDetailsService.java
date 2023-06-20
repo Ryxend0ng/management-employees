@@ -23,18 +23,16 @@ public class CustomUserDetailsService implements UserDetailsService{
 
 	@Autowired
 	AccountEmployeeRepository accRepo;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
 		AccountEmployee acc=accRepo.findByUsername(username);
-		List<GrantedAuthority> grands=new ArrayList<GrantedAuthority>();
-		GrantedAuthority autho=new SimpleGrantedAuthority("ADMIN");
-		grands.add(autho);
-		UserDetails user=new User(username, acc.getPassword(), grands);
+		System.out.println(acc.getUsername()+" "+acc.getPassword());
 		
 	//	System.out.println(acc.getPassword()+""+		acc.getUsername());
 		return acc;
 	}
-
+	
 }

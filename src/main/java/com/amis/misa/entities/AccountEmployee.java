@@ -18,6 +18,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,9 +51,9 @@ public class AccountEmployee extends BaseEntity implements UserDetails{
 	@OneToOne
 	@JoinColumn(name="employee_id")
 	private Employee employee;
-	
-	@OneToMany(mappedBy = "accountEmployee",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	List<UserRole> userRoles=new ArrayList<UserRole>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "accountEmployee", fetch = FetchType.EAGER)
+	private List<UserRole> userRoles=new ArrayList<UserRole>();
 	
 	public void addUserRole(UserRole user) {
 		userRoles.add(user);
@@ -64,9 +66,7 @@ public class AccountEmployee extends BaseEntity implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-//		List<GrantedAuthority> grands=new ArrayList<GrantedAuthority>();
-//		GrantedAuthority autho=new SimpleGrantedAuthority("ADMIN");
-//		grands.add(autho);
+
 		return userRoles; 
 	}
 	@Override

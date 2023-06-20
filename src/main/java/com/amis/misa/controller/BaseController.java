@@ -6,20 +6,31 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.amis.misa.entities.AccountEmployee;
+
+
 
 
 
 public class BaseController<T> {
-	  public ResponseEntity<?> resSuccess(T data) {
-	        Map<String, T> map = new HashMap<>();
-	        map.put("data", data);
-	        return ResponseEntity.status(HttpStatus.OK).body(map);
-	        
-	    }
-	  public ResponseEntity<?> resListSuccess(List<?> data) {
-	        Map<String, List<?>> map = new HashMap<>();
-	        map.put("data", data);
-	        return ResponseEntity.status(HttpStatus.OK).body(map);
-	        
-	    }
+	public boolean isLogined() {
+		boolean isLogined = false;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			isLogined = true;
+		}
+		return isLogined;
+	}
+	public AccountEmployee getUserLogined() throws Exception {
+		Object userLogined = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (userLogined != null && userLogined instanceof UserDetails) {
+			
+
+			return  (AccountEmployee) userLogined;
+		}
+		return null;
+	}
 }

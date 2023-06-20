@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +31,7 @@ public class UserRole extends BaseEntity implements GrantedAuthority{
 	@Column(name = "roleCode", nullable = true)
 	private String roleCode;
 	
+	@JsonIgnore
 	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "account_employee_id")
 	private AccountEmployee accountEmployee;

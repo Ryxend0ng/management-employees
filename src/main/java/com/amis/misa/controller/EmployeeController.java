@@ -18,6 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,7 @@ import com.amis.misa.dto.EmployeeDto;
 import com.amis.misa.dto.JsonForErrorMessage;
 import com.amis.misa.entities.Employee;
 import com.amis.misa.services.IEmployeeService;
+import com.amis.misa.services.impl.CustomUserDetailsService;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,6 +78,14 @@ public class EmployeeController extends BaseController<Employee>{
 			@RequestParam(name = "pageNumber",required = false,defaultValue = "1" ) int pageNumber,
 			@RequestParam(name = "employeeFilter",required = false, defaultValue = "") String employeeFilter
 			){
+		try {
+			System.out.println(isLogined()+"");
+			//getUserLogined().getAuthorities().stream().forEach(e->System.out.println( e.getAuthority()));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		try {
 		Page<Employee> pageEmployees=employeeService.findEmployeebyFilter(pageSize,pageNumber, employeeFilter);
 		List<EmployeeDto> listEmpDto=new ArrayList<EmployeeDto>();

@@ -33,7 +33,7 @@ public class Role extends BaseEntity{
 	
 	@Column(name = "description", nullable = true)
 	private String description;
-	@OneToMany(mappedBy = "role",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
 	List<UserRole> luserRoles=new ArrayList<UserRole>();
 	
 	public void addUserRole(UserRole user) {
