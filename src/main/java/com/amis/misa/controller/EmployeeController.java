@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,6 +81,8 @@ public class EmployeeController extends BaseController<Employee>{
 			){
 		try {
 			System.out.println(isLogined()+"");
+			@SuppressWarnings("unused")
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			//getUserLogined().getAuthorities().stream().forEach(e->System.out.println( e.getAuthority()));
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

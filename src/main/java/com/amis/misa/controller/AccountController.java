@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amis.misa.entities.AccountEmployee;
+import com.amis.misa.filter.JwtTokenprovider;
 import com.amis.misa.repositories.AccountEmployeeRepository;
 import com.amis.misa.services.impl.CustomUserDetailsService;
 
@@ -28,19 +29,22 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/v1")
 @Tag(name = "Account")
 public class AccountController {
-	@Autowired
-	AccountEmployeeRepository accRepo;
+
 	@Autowired
 	private AuthenticationManager auth;
-
+	@Autowired
+	JwtTokenprovider jwt;
+	@Autowired
+	CustomUserDetailsService customUser;
 	@PostMapping("/perform_login")
 	public ResponseEntity<?> login(@RequestBody AccountEmployee account) {
 		try {
 			
 			Authentication authen=auth.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
-			 SecurityContextHolder.getContext().setAuthentication(authen);
-			
-			return ResponseEntity.ok().body("OK");
+			SecurityContextHolder.getContext().setAuthentication(authen);
+			UserDetails user= customUser.loadUserByUsername(account.getUsername());
+			String jwtToken=jwt.generateToken((AccountEmployee) user);
+			return ResponseEntity.ok().body(jwtToken);
 			//Optional<AccountEmployee> opt=Optional.ofNullable(accRepo.findByUsernameAndPassword(account.getUsername(),new BCryptPasswordEncoder().encode(account.getPassword())));
 			
 //			if(opt.isEmpty()) {
