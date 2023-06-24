@@ -40,8 +40,8 @@ public class AccountController {
 	public ResponseEntity<?> login(@RequestBody AccountEmployee account) {
 		try {
 			
-			Authentication authen=auth.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
-			SecurityContextHolder.getContext().setAuthentication(authen);
+			auth.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
+
 			UserDetails user= customUser.loadUserByUsername(account.getUsername());
 			String jwtToken=jwt.generateToken((AccountEmployee) user);
 			return ResponseEntity.ok().body(jwtToken);

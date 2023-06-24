@@ -2,6 +2,8 @@ package com.amis.misa.filter;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import com.amis.misa.entities.AccountEmployee;
@@ -15,12 +17,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
+@PropertySource("classpath:jwt.properties")
 public class JwtTokenprovider {
-	 
-    private final String JWT_SECRET = "lodaaaaaa";
-
-   
-    private final long JWT_EXPIRATION = 604800000L;
+	
+	@Value("${jwt.secret}")
+    private  String JWT_SECRET;
+ 
+	@Value("${jwt.expiration}")
+    private  long JWT_EXPIRATION;
     
     public String generateToken(AccountEmployee userDetails) {
     	Date now=new Date();
