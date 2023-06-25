@@ -4,7 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+import com.amis.misa.dto.BaseDto;
+import com.amis.misa.entities.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ObjectConvert<T,G> {
+@Component
+public class ObjectConvert<T extends BaseEntity,G extends BaseDto> {
 	
 	public ModelMapper modelMapper=new ModelMapper();
 	

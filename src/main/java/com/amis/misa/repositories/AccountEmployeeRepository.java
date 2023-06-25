@@ -9,7 +9,7 @@ import com.amis.misa.entities.Employee;
 
 
 @Repository
-public interface AccountEmployeeRepository extends JpaRepository<AccountEmployee, Integer>,JpaSpecificationExecutor<AccountEmployee>{
+public interface AccountEmployeeRepository extends BaseRepository<AccountEmployee, Integer>{
 	public AccountEmployee findByUsername(String accountName);
 	public AccountEmployee findByUsernameAndPassword(String username,String password);
 }

@@ -28,7 +28,7 @@ import com.amis.misa.services.IEmployeeService;
 import com.amis.misa.specifications.EmployeeSpecification;
 
 @Service
-public class EmployeeServiceImpl implements IEmployeeService{
+public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Integer, EmployeeRepository,EmployeeDto> implements IEmployeeService{
 
 	@Autowired
 	EmployeeRepository employeeRepo;
@@ -38,21 +38,15 @@ public class EmployeeServiceImpl implements IEmployeeService{
 	 
 	private ObjectConvert< Employee, EmployeeDto> employeeConvert=new ObjectConvert<Employee, EmployeeDto>(Employee.class, EmployeeDto.class);
 	
-	@Override
-	public List<EmployeeDto> findAllEmployee() {
-		// TODO Auto-generated method stub
-		List<EmployeeDto> list=new ArrayList<EmployeeDto>();
-		employeeRepo.findAll().forEach(e->list.add(employeeConvert.convertToDto(e)));
-		return list;
-	}
+	
 
-	@Override
-	public Page<Employee> findEmployeebyFilter(Integer pageSize,Integer pageNumber, String employeeFilter) {
-		// TODO Auto-generated method stub
-		Pageable page=PageRequest.of(pageNumber-1, pageSize);
-		return employeeRepo.findAll(employeeSpecification.findEmployeesByFilter(employeeFilter), page);
-		
-	}
+//	@Override
+//	public Page<Employee> findEmployeebyFilter(Integer pageSize,Integer pageNumber, String employeeFilter) {
+//		// TODO Auto-generated method stub
+//		Pageable page=PageRequest.of(pageNumber-1, pageSize);
+//		return employeeRepo.findAll(employeeSpecification.findEmployeesByFilter(employeeFilter), page);
+//		
+//	}
 
 	@Override
 	public String generateEmployeeCode() {
@@ -93,18 +87,7 @@ public class EmployeeServiceImpl implements IEmployeeService{
 		return null;
 	}
 
-	@Override
-	public int deleteEmployeeById(int employId) {
-		// TODO Auto-generated method stub
-		
-		 if( employId!=0) {
-			 employeeRepo.deleteById(employId);
-			 return 1;
-		 }else {
-			 return 0;
-		 }
-		 
-	}
+	
 
 	@Override
 	public Employee findByEmployeeCode(String empCode) {
@@ -190,13 +173,14 @@ public class EmployeeServiceImpl implements IEmployeeService{
         }
 		
 	}
-
+	@Override
 	public void setHeaderSheet(Row row,int index,String nameHeader,CellStyle cellStyle,Sheet sheet) {
 		
          Cell cell = row.createCell(index);
          cell.setCellValue(nameHeader);
          cell.setCellStyle(cellStyle);
 	}
+	@Override
 	public <T> void setDataSheet(Row empDataRow,int index,CellStyle cellStyle,T emp) {
 		 Optional<T> optCheck=Optional.ofNullable(emp);
          Cell empCell = empDataRow.createCell(index);

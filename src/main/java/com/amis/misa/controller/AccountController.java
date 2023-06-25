@@ -40,20 +40,12 @@ public class AccountController {
 	public ResponseEntity<?> login(@RequestBody AccountEmployee account) {
 		try {
 			
-			auth.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
-
+			Authentication authen= auth.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authen);
 			UserDetails user= customUser.loadUserByUsername(account.getUsername());
 			String jwtToken=jwt.generateToken((AccountEmployee) user);
 			return ResponseEntity.ok().body(jwtToken);
-			//Optional<AccountEmployee> opt=Optional.ofNullable(accRepo.findByUsernameAndPassword(account.getUsername(),new BCryptPasswordEncoder().encode(account.getPassword())));
-			
-//			if(opt.isEmpty()) {
-//				return ResponseEntity.badRequest().body("Account khong ton tai");
-//			}else {
-//				
-//				return ResponseEntity.ok("ok");
-//			}
-//			
+
 		}catch (Exception e) {
 //			// TODO: handle exception
 			return ResponseEntity.badRequest().body(e);

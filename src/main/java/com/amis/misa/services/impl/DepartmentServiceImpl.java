@@ -11,15 +11,7 @@ import com.amis.misa.repositories.DepartmentRepository;
 import com.amis.misa.services.IDepartmentService;
 
 @Service
-public class DepartmentServiceImpl implements IDepartmentService{
+public class DepartmentServiceImpl extends BaseServiceImpl<Department, Integer, DepartmentRepository,DepartmentDto> implements IDepartmentService{
 
-	@Autowired
-	DepartmentRepository departRepo;
-	@Override
-	public List<Department> getAllDepartments() {
-		// TODO Auto-generated method stub
-		
-		return departRepo.findAll();
-	}
-
+	
 }

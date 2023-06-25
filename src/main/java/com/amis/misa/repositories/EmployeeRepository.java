@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.amis.misa.entities.Employee;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>, JpaSpecificationExecutor<Employee>{
+public interface EmployeeRepository extends BaseRepository<Employee, Integer>{
 	public Employee findTop1ByOrderByCreatedDateDesc();
 	public Employee findByEmployeeCode(String empCode);
 	

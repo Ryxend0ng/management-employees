@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -54,8 +55,8 @@ public class EmployeeController extends BaseController<Employee>{
 
 	@Autowired
 	IEmployeeService employeeService;
-	
-	ObjectConvert< Employee, EmployeeDto> employeeConvert=new ObjectConvert<Employee, EmployeeDto>(Employee.class, EmployeeDto.class);
+	private ObjectConvert< Employee, EmployeeDto> employeeConvert=new ObjectConvert<Employee, EmployeeDto>(Employee.class, EmployeeDto.class);
+
 	
 	
 	 /**
@@ -90,11 +91,15 @@ public class EmployeeController extends BaseController<Employee>{
 		}
 		
 		try {
-		Page<Employee> pageEmployees=employeeService.findEmployeebyFilter(pageSize,pageNumber, employeeFilter);
-		List<EmployeeDto> listEmpDto=new ArrayList<EmployeeDto>();
-		pageEmployees.getContent().forEach(e-> listEmpDto.add(employeeConvert.convertToDto(e)));
-		DataInfPageForJson<EmployeeDto> data=new DataInfPageForJson<EmployeeDto>(pageEmployees.getTotalPages(), pageEmployees.getTotalElements(), listEmpDto);
-		return ResponseEntity.ok(data);
+		Optional<Page<Employee>> pageEmployees=employeeService.findEntitiesByFilter(pageSize,pageNumber, employeeFilter,new ArrayList<String>(Arrays.asList("employeeCode","employeeName")));
+		if(pageEmployees.isPresent()) {
+			List<EmployeeDto> listEmpDto=new ArrayList<EmployeeDto>();
+			pageEmployees.get().getContent().forEach(e-> listEmpDto.add(employeeConvert.convertToDto(e)));
+			DataInfPageForJson<EmployeeDto> data=new DataInfPageForJson<EmployeeDto>(pageEmployees.get().getTotalPages(), pageEmployees.get().getTotalElements(), listEmpDto);
+			return ResponseEntity.ok(data);
+		}else {
+			return ResponseEntity.ok("NO DATA");
+		}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -110,7 +115,7 @@ public class EmployeeController extends BaseController<Employee>{
     * created_date: 08/06/2023
     * {@summary}
     * Thêm nhân viên 
-    *
+{    *
     * 
     * @return true or false
     * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
@@ -205,7 +210,7 @@ public class EmployeeController extends BaseController<Employee>{
 		public ResponseEntity<?> deleteEmployeeById(@PathVariable(name="employeeId") int employeeId){
 			try {
 				
-				return ResponseEntity.ok(employeeService.deleteEmployeeById(employeeId));
+				return ResponseEntity.ok(employeeService.deleteById(employeeId));
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -245,9 +250,9 @@ public class EmployeeController extends BaseController<Employee>{
 		        header.set(HttpHeaders.CONTENT_DISPOSITION, fileType);
 		        
 		        // lay du lieu
-		        Page<Employee> pageEmployees=employeeService.findEmployeebyFilter(pageSize,pageNumber, employeeFilter);
+		        Optional<Page<Employee>> pageEmployees=employeeService.findEntitiesByFilter(pageSize,pageNumber, employeeFilter,new ArrayList<String>());
 				List<EmployeeDto> listEmpDto=new ArrayList<EmployeeDto>();
-				pageEmployees.getContent().forEach(e-> listEmpDto.add(employeeConvert.convertToDto(e)));
+				pageEmployees.get().getContent().forEach(e-> listEmpDto.add(employeeConvert.convertToDto(e)));
 				
 				return new ResponseEntity<>(employeeService.exportExcelEmployee(stream, listEmpDto),header, HttpStatus.CREATED);
 			

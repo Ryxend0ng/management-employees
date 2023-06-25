@@ -5,6 +5,6 @@ import java.util.List;
 import com.amis.misa.dto.DepartmentDto;
 import com.amis.misa.entities.Department;
 
-public interface IDepartmentService {
-	public List<Department> getAllDepartments();
+public interface IDepartmentService extends IBaseService<Department, Integer,DepartmentDto>{
+	
 }

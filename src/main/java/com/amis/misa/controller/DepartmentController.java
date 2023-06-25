@@ -25,7 +25,7 @@ public class DepartmentController {
 	@Autowired
 	IDepartmentService departmentService;
 
-	private ObjectConvert< Department, DepartmentDto> deMapper=new ObjectConvert<Department, DepartmentDto>(Department.class,DepartmentDto.class);
+	
 	
 	 /**
 		 * 
@@ -41,9 +41,8 @@ public class DepartmentController {
 		@Operation(description = "Lấy  danh sách phòng ban",summary = "Lấy  danh sách phòng ban")
 		public ResponseEntity<?> getAllDepartments(){
 			try {
-				List<DepartmentDto> departments=new ArrayList<>();
-				departmentService.getAllDepartments().forEach(e->departments.add(deMapper.convertToDto(e)));
-				return ResponseEntity.ok(departments);
+				
+				return ResponseEntity.ok(departmentService.findAll());
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
