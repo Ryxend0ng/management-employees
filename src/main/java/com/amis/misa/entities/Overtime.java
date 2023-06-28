@@ -1,5 +1,6 @@
 package com.amis.misa.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,25 +22,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name ="department")
-public class Department extends BaseEntity{
+@Builder
+@Table(name ="overtime")
+public class Overtime extends BaseEntity{
 	
-	@Column(name = "departmentName", nullable = false)
-	private String departmentName;
+	@Column(name = "hours", nullable = true)
+	Integer hours;
 	
-	@Column(name = "departmentCode", nullable = false)
-	private String departmentCode;
-	
+	@Column(name = "curenDatetOt", nullable = true)
+	LocalDate curenDatetOt;
 	
 	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Employee> emList=new ArrayList<Employee>();
 	
 	public void addEmployee(Employee employee) {
 		emList.add(employee);
-		employee.setDepartment(this);
+		employee.setOverTime(this);
 	}
 	public void removeEmployee(Employee employee) {
 		emList.remove(employee);
-		employee.setDepartment(null);
+		employee.setOverTime(null);
 	}
 }

@@ -1,14 +1,20 @@
 package com.amis.misa.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
+import com.amis.misa.constants.UserMessageConstant;
+import com.amis.misa.validation.StringFormatEmail;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -45,6 +51,7 @@ public class Employee extends BaseEntity {
 	private String dateOfBirth;
 	
 	@Column(name = "email", nullable = true)
+	@StringFormatEmail
 	private String email;
 	
 	@Column(name = "identityNumber", nullable = true)
@@ -81,5 +88,39 @@ public class Employee extends BaseEntity {
 	@JoinColumn(name = "department_id")
 	private Department department;
 	
+	@OneToMany(mappedBy = "employee")
+	public List<BonusEmployee> listBe=new ArrayList<BonusEmployee>();
 	
+	public void addBonusEmployee(BonusEmployee be) {
+		listBe.add(be);
+		be.setEmployee(this);
+	}
+	public void removeBonusEmployee(BonusEmployee be) {
+		listBe.remove(be);
+		be.setEmployee(null);
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "position_id")
+	private Position position;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "academicLevel_id")
+	private AcademicLevel academicLevel;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "overtime_id")
+	private Overtime overTime;
+	
+	@OneToMany(mappedBy = "employee")
+	public List<TimeKeeping> listTimeKeep=new ArrayList<TimeKeeping>();
+	
+	public void addTimeKeeping(TimeKeeping tk) {
+		listTimeKeep.add(tk);
+		tk.setEmployee(this);
+	}
+	public void removeTimeKeeping(TimeKeeping tk) {
+		listTimeKeep.remove(tk);
+		tk.setEmployee(null);
+	}
 }

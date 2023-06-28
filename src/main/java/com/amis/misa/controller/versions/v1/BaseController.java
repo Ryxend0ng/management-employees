@@ -1,4 +1,4 @@
-package com.amis.misa.controller;
+package com.amis.misa.controller.versions.v1;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.amis.misa.annotation.RestApiV1;
 import com.amis.misa.entities.AccountEmployee;
 
 
 
 
-
+@RestApiV1
 public class BaseController<T> {
 	public boolean isLogined() {
 		boolean isLogined = false;

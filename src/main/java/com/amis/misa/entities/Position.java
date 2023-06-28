@@ -10,10 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,25 +20,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name ="department")
-public class Department extends BaseEntity{
+@Table(name ="position")
+public class Position extends BaseEntity{
+	@Column(name = "positionCode", nullable = true)
+	String positionCode;
 	
-	@Column(name = "departmentName", nullable = false)
-	private String departmentName;
+	@Column(name = "positionName", nullable = true)
+	String positionName;
 	
-	@Column(name = "departmentCode", nullable = false)
-	private String departmentCode;
-	
-	
-	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "position",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Employee> emList=new ArrayList<Employee>();
 	
 	public void addEmployee(Employee employee) {
 		emList.add(employee);
-		employee.setDepartment(this);
+		employee.setPosition(this);
 	}
 	public void removeEmployee(Employee employee) {
 		emList.remove(employee);
-		employee.setDepartment(null);
+		employee.setPosition(null);
 	}
 }

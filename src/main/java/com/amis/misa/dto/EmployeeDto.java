@@ -3,6 +3,9 @@ package com.amis.misa.dto;
 
 
 
+import javax.validation.constraints.NotBlank;
+
+import com.amis.misa.constants.UserMessageConstant;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -20,7 +23,7 @@ import lombok.Setter;
 public class EmployeeDto extends BaseDto{
 	
 	
-	
+	@NotBlank(message = UserMessageConstant.ERROR_NOT_BLANK)
 	private String employeeCode;
 	
 

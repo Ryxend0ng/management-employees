@@ -1,4 +1,4 @@
-package com.amis.misa.controller;
+package com.amis.misa.controller.versions.v1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amis.misa.annotation.RestApiV1;
+import com.amis.misa.constants.UrlConstant;
 import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.DepartmentDto;
 import com.amis.misa.dto.JsonForErrorMessage;
@@ -18,8 +20,7 @@ import com.amis.misa.services.IDepartmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@RestController
-@RequestMapping("/api/v1")
+@RestApiV1
 @Tag(name = "Department")
 public class DepartmentController {
 	@Autowired
@@ -37,7 +38,7 @@ public class DepartmentController {
 	     * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
 	     * }
 	     */
-		@GetMapping("/Departments")
+		@GetMapping(UrlConstant.GET_DEPARTMENTS_DATA)
 		@Operation(description = "Lấy  danh sách phòng ban",summary = "Lấy  danh sách phòng ban")
 		public ResponseEntity<?> getAllDepartments(){
 			try {

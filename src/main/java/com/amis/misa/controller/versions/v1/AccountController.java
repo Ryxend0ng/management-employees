@@ -1,4 +1,4 @@
-package com.amis.misa.controller;
+package com.amis.misa.controller.versions.v1;
 
 import java.util.Optional;
 
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amis.misa.annotation.RestApiV1;
+import com.amis.misa.constants.UrlConstant;
 import com.amis.misa.entities.AccountEmployee;
 import com.amis.misa.filter.JwtTokenprovider;
 import com.amis.misa.repositories.AccountEmployeeRepository;
@@ -25,8 +27,7 @@ import com.amis.misa.services.impl.CustomUserDetailsService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@RestController
-@RequestMapping("/api/v1")
+@RestApiV1
 @Tag(name = "Account")
 public class AccountController {
 
@@ -36,7 +37,7 @@ public class AccountController {
 	JwtTokenprovider jwt;
 	@Autowired
 	CustomUserDetailsService customUser;
-	@PostMapping("/perform_login")
+	@PostMapping(UrlConstant.PERFORM_LOGIN)
 	public ResponseEntity<?> login(@RequestBody AccountEmployee account) {
 		try {
 			

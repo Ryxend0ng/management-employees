@@ -1,4 +1,4 @@
-package com.amis.misa.controller;
+package com.amis.misa.controller.versions.v1;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -33,6 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amis.misa.annotation.RestApiV1;
+import com.amis.misa.constants.UrlConstant;
+import com.amis.misa.constants.UserMessageConstant;
 import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.DataInfPageForJson;
 import com.amis.misa.dto.EmployeeDto;
@@ -48,8 +52,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@RestController
-@RequestMapping("/api/v1/Employees")
+@RestApiV1
 @Tag(name = "Employee")
 public class EmployeeController extends BaseController<Employee>{
 
@@ -73,22 +76,14 @@ public class EmployeeController extends BaseController<Employee>{
      * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
      * }
      */
-	@GetMapping("/filter")
+	@GetMapping(UrlConstant.GET_EMPLOYEE_DATA)
 	@Operation(description = "Lấy  danh sách nhân viên theo page",summary = "Lấy  danh sách nhân viên theo page")
 	public ResponseEntity<?> filerWithPagationAndFilter(
 			@RequestParam(name = "pageSize",required = false,defaultValue = "10") int pageSize,
 			@RequestParam(name = "pageNumber",required = false,defaultValue = "1" ) int pageNumber,
 			@RequestParam(name = "employeeFilter",required = false, defaultValue = "") String employeeFilter
 			){
-		try {
-			System.out.println(isLogined()+"");
-			@SuppressWarnings("unused")
-			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			//getUserLogined().getAuthorities().stream().forEach(e->System.out.println( e.getAuthority()));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		
 		try {
 		Optional<Page<Employee>> pageEmployees=employeeService.findEntitiesByFilter(pageSize,pageNumber, employeeFilter,new ArrayList<String>(Arrays.asList("employeeCode","employeeName")));
@@ -98,12 +93,12 @@ public class EmployeeController extends BaseController<Employee>{
 			DataInfPageForJson<EmployeeDto> data=new DataInfPageForJson<EmployeeDto>(pageEmployees.get().getTotalPages(), pageEmployees.get().getTotalElements(), listEmpDto);
 			return ResponseEntity.ok(data);
 		}else {
-			return ResponseEntity.ok("NO DATA");
+			return ResponseEntity.ok(UserMessageConstant.ERROR_GET_DATA_EMPLOYEE);
 		}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), "Có lỗi xảy ra vui lòng liên hệ Đông để biết thêm chi tiết");
+			JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), UserMessageConstant.ERROR_USER);
 			return ResponseEntity.badRequest().body(json);
 		}
 	}
@@ -121,12 +116,12 @@ public class EmployeeController extends BaseController<Employee>{
     * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
     * }
     */
-	@PostMapping("/insert")
+	@PostMapping(UrlConstant.CREATE_EMPLOYEE)
 	@Operation(description = "Thêm nhân viên",summary = "Thêm nhân viên vào DB")
-	public ResponseEntity<?> insertEmployee(@RequestBody EmployeeDto employeeDto){
+	public ResponseEntity<?> insertEmployee(@RequestBody @Valid EmployeeDto employeeDto){
 		try {
 			Optional<Employee> empCheck=Optional.ofNullable(employeeService.findByEmployeeCode(employeeDto.getEmployeeCode()));
-			if(empCheck.isEmpty()) {
+			if(!empCheck.isEmpty()) {
 				employeeService.saveOrUpdate(employeeDto);
 				return ResponseEntity.ok(true);
 			}else {
@@ -137,7 +132,7 @@ public class EmployeeController extends BaseController<Employee>{
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), "Có lỗi xảy ra vui lòng liên hệ Đông để biết thêm chi tiết");
+			JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
 			return ResponseEntity.badRequest().body(json);
 		}
 	}
@@ -153,7 +148,7 @@ public class EmployeeController extends BaseController<Employee>{
 	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
 	    * }
 	    */
-		@PutMapping("/update")
+		@PutMapping(UrlConstant.UPDATE_EMPLOYEE)
 		@Operation(description = "Sửa nhân viên",summary = "Sửa nhân viên vào DB")
 		public ResponseEntity<?> updatetEmployee(@RequestBody EmployeeDto employeeDto){
 			try {
@@ -163,7 +158,7 @@ public class EmployeeController extends BaseController<Employee>{
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), "Có lỗi xảy ra vui lòng liên hệ Đông để biết thêm chi tiết");
+				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
 				return ResponseEntity.badRequest().body(json);
 			}
 		}
@@ -178,7 +173,7 @@ public class EmployeeController extends BaseController<Employee>{
 	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
 	    * }
 	    */
-		@GetMapping("/NewEmployeeCode")
+		@GetMapping(UrlConstant.GET_NEW_EMPLOYEE_CODE)
 		@Operation(description = "Tạo mã  nhân viên mới ",summary = "Tạo mã nhân viên mới")
 		public ResponseEntity<?> getNewEmployeeCode(){
 			try {
@@ -187,7 +182,7 @@ public class EmployeeController extends BaseController<Employee>{
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), "Có lỗi xảy ra vui lòng liên hệ Đông để biết thêm chi tiết");
+				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
 				return ResponseEntity.badRequest().body(json);
 			}
 		}
@@ -205,7 +200,7 @@ public class EmployeeController extends BaseController<Employee>{
 	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
 	    * }
 	    */
-		@DeleteMapping("/{employeeId}")
+		@DeleteMapping(UrlConstant.DELETE_BY_EMPLOYEE_ID)
 		@Operation(description = "Xóa nhân viên ",summary = "Xóa nhân viên theo id")
 		public ResponseEntity<?> deleteEmployeeById(@PathVariable(name="employeeId") int employeeId){
 			try {
@@ -214,7 +209,7 @@ public class EmployeeController extends BaseController<Employee>{
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), "Có lỗi xảy ra vui lòng liên hệ Đông để biết thêm chi tiết");
+				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), UserMessageConstant.ERROR_USER);
 				return ResponseEntity.badRequest().body(json);
 			}
 		}
@@ -232,7 +227,7 @@ public class EmployeeController extends BaseController<Employee>{
 	    * }
 	    */
 		@Operation(description = "Export excel danh sách nhân viên",summary = "Export excel danh sách nhân viên")
-		@GetMapping("/exportExcel")
+		@GetMapping(UrlConstant.EXPORT_EXCEL)
 	    public ResponseEntity<?> exportExcel(HttpServletResponse response,
 	    		@RequestParam(name = "pageSize",required = false,defaultValue = "10") int pageSize,
 	    		@RequestParam(name = "pageNumber",required = false,defaultValue = "1" ) int pageNumber,
@@ -259,12 +254,12 @@ public class EmployeeController extends BaseController<Employee>{
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), "Có lỗi xảy ra vui lòng liên hệ Đông để biết thêm chi tiết");
+				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
 				return ResponseEntity.badRequest().body(json);
 			}
 	    }
 		
-		@GetMapping("/importExcel")
+		@GetMapping(UrlConstant.IMPORT_EXCEL)
 	    public void importExcel(HttpServletResponse response) throws IOException {
 			
 	        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");

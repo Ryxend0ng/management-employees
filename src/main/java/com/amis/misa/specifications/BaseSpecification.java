@@ -12,13 +12,26 @@ import com.amis.misa.entities.BaseEntity;
 
 @Component
 public class BaseSpecification <E extends BaseEntity>{
+	
+	// lay du lieu loc theo filter
 	public  Specification<E> findByFilter(String filter,List<String> properties ){
 		return (root,query,cb)->{
 			List<Predicate> predicate= new ArrayList<>();
+			
 			for (String prop : properties) {
-				predicate.add(cb.or(cb.like(root.get(prop),"%"+filter+"%")));
+				predicate.add(cb.like(root.get(prop),"%"+filter+"%"));
 			}			
-			return cb.and(predicate.toArray(new Predicate[] {}));
+			return cb.or(predicate.toArray(new Predicate[] {}));
+			
+		};
+	}
+	//lay 1 record theo khoa ngoai
+	public  Specification<E> getEnitityByForenkey(String forenKey ){
+		return (root,query,cb)->{
+			List<Predicate> predicate= new ArrayList<>();
+			//root.join(null)
+			return cb.or(predicate.toArray(new Predicate[] {}));
+			
 		};
 	}
 }
