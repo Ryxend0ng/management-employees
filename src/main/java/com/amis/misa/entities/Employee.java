@@ -13,10 +13,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.amis.misa.constants.UserMessageConstant;
 import com.amis.misa.validation.StringFormatEmail;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -83,9 +88,10 @@ public class Employee extends BaseEntity {
 	@Column(name = "branchName", nullable = true)
 	private String branchName;
 	
-	@JsonIgnore
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "department_id")
+	@Fetch(FetchMode.JOIN)
+	@JoinColumn(name = "department_id",referencedColumnName = "id")
 	private Department department;
 	
 	@OneToMany(mappedBy = "employee")
@@ -123,4 +129,5 @@ public class Employee extends BaseEntity {
 		listTimeKeep.remove(tk);
 		tk.setEmployee(null);
 	}
+	
 }

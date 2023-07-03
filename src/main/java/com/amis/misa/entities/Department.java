@@ -10,7 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,15 +37,16 @@ public class Department extends BaseEntity{
 	private String departmentCode;
 	
 	
-	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Employee> emList=new ArrayList<Employee>();
+//	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@Fetch(FetchMode.JOIN)
+//	private List<Employee> emList=new ArrayList<Employee>();
 	
-	public void addEmployee(Employee employee) {
-		emList.add(employee);
-		employee.setDepartment(this);
-	}
-	public void removeEmployee(Employee employee) {
-		emList.remove(employee);
-		employee.setDepartment(null);
-	}
+//	public void addEmployee(Employee employee) {
+//		emList.add(employee);
+//		employee.setDepartment(this);
+//	}
+//	public void removeEmployee(Employee employee) {
+//		emList.remove(employee);
+//		employee.setDepartment(null);
+//	}
 }

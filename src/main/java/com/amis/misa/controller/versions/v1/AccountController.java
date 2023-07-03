@@ -2,6 +2,8 @@ package com.amis.misa.controller.versions.v1;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,8 +40,8 @@ public class AccountController {
 	@Autowired
 	CustomUserDetailsService customUser;
 	@PostMapping(UrlConstant.PERFORM_LOGIN)
-	public ResponseEntity<?> login(@RequestBody AccountEmployee account) {
-		try {
+	public ResponseEntity<?> login(@RequestBody @Valid AccountEmployee account) {
+		
 			
 			Authentication authen= auth.authenticate(new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
 			SecurityContextHolder.getContext().setAuthentication(authen);
@@ -47,9 +49,6 @@ public class AccountController {
 			String jwtToken=jwt.generateToken((AccountEmployee) user);
 			return ResponseEntity.ok().body(jwtToken);
 
-		}catch (Exception e) {
-//			// TODO: handle exception
-			return ResponseEntity.badRequest().body(e);
-	}
+		
 	}
 }

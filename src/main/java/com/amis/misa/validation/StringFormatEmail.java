@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
 import com.amis.misa.validation.validator.StringFormatEmailValidator;
 
@@ -15,5 +16,8 @@ import com.amis.misa.validation.validator.StringFormatEmailValidator;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = StringFormatEmailValidator.class)
 public @interface  StringFormatEmail {
+	 String message() default "Invalid Limit of Code";
+	    Class<?>[] groups() default {};
+	    Class<? extends Payload>[] payload() default {};
 
 }

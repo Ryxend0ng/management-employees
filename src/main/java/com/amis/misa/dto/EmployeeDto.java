@@ -3,6 +3,7 @@ package com.amis.misa.dto;
 
 
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.amis.misa.constants.UserMessageConstant;
@@ -26,7 +27,7 @@ public class EmployeeDto extends BaseDto{
 	@NotBlank(message = UserMessageConstant.ERROR_NOT_BLANK)
 	private String employeeCode;
 	
-
+	@NotBlank(message = UserMessageConstant.ERROR_NOT_BLANK)
 	private String employeeName;
 	
 	
@@ -35,6 +36,7 @@ public class EmployeeDto extends BaseDto{
 	
 	private int gender;
 	
+	@NotBlank(message = UserMessageConstant.ERROR_NOT_BLANK)
 	private int departmentId;
 	
 	private String departmentName;
@@ -42,7 +44,7 @@ public class EmployeeDto extends BaseDto{
 	 
 	private String dateOfBirth;
 	
-	
+	@Email
 	private String email;
 	
 	

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmployeeException extends Exception{
+public class NotFoundException extends RuntimeException{
 
 	/**
 	 * 
@@ -13,10 +13,10 @@ public class EmployeeException extends Exception{
 	private String userMessage;
 	private String devMessage;
 	private static final long serialVersionUID = 1L;
-	public EmployeeException(String message) {
+	public NotFoundException(String message) {
 		this.userMessage=message;
 	}
-	public EmployeeException(String message,String dev) {
+	public NotFoundException(String message,String dev) {
 		this.userMessage=message;
 		this.devMessage=dev;
 	}

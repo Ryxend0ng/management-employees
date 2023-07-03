@@ -6,17 +6,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 
+import com.amis.misa.constants.UserMessageConstant;
 import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.BaseDto;
 import com.amis.misa.dto.EmployeeDto;
 import com.amis.misa.entities.BaseEntity;
-
+import com.amis.misa.exception.NotFoundException;
 import com.amis.misa.repositories.BaseRepository;
 import com.amis.misa.services.IBaseService;
 import com.amis.misa.specifications.BaseSpecification;
@@ -43,21 +46,19 @@ public class BaseServiceImpl<E extends BaseEntity, ID extends Serializable, R ex
 	}
 
 	@Override
+	@Transactional
 	public int deleteById(ID id) {
 		// TODO Auto-generated method stub
 	    if(repository.findById(id).isPresent()) { 
 	    	repository.deleteById(id);
 	    	return 1;
 	    }else {
-	    	return 0;
+	    	
+	    	throw new NotFoundException(UserMessageConstant.ERROR_GET_DATA_EMPLOYEE);
 	    }
 	}
 
-	@Override
-	public boolean saveOrUpdate(K dto) {
-		// TODO Auto-generated method stub
-		return repository.save(convert.convertToEntity(dto)) != null;
-	}
+	
 
 	@Override
 	public Optional<Page<E>> findEntitiesByFilter(Integer pageSize, Integer pageNumber,@Nullable String filter,@Nullable List<String> prop) {
@@ -71,6 +72,18 @@ public class BaseServiceImpl<E extends BaseEntity, ID extends Serializable, R ex
 	public Optional<E> findById(ID id) {
 		// TODO Auto-generated method stub
 		return repository.findById(id);
+	}
+
+	@Override
+	public boolean save(K dto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean update(K dto) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

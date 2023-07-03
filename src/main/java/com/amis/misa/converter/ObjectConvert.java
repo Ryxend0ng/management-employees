@@ -36,4 +36,6 @@ public class ObjectConvert<T extends BaseEntity,G extends BaseDto> {
 	public T convertToEntity(G g) {
 		return this.modelMapper.map(g,typeEntity);
 	}
+
+	
 }

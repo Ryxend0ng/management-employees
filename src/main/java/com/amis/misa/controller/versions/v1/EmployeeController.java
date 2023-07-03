@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amis.misa.annotation.RestApiV1;
@@ -54,219 +55,171 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestApiV1
 @Tag(name = "Employee")
-public class EmployeeController extends BaseController<Employee>{
+public class EmployeeController extends BaseController<Employee, EmployeeDto> {
 
 	@Autowired
 	IEmployeeService employeeService;
-	private ObjectConvert< Employee, EmployeeDto> employeeConvert=new ObjectConvert<Employee, EmployeeDto>(Employee.class, EmployeeDto.class);
+	private ObjectConvert<Employee, EmployeeDto> employeeConvert = new ObjectConvert<Employee, EmployeeDto>(
+			Employee.class, EmployeeDto.class);
 
-	
-	
-	 /**
+	/**
 	 * 
-     * @author Nguyễn Văn Đông
-     * created_date: 06/06/2023
-     * {@summary}
-     * Lấy ra danh sách List<Employee> theo page và filter (Mã nhân viên hoặc tên nhân viên) 
-     *
-     * @param pageSize - số lượng record trên 1 trang
-     * @param pageNumber - số page hiện tại
-     * @param employeeFilter - giá trị của employeeFilter có thể là mã nhân viên hoặc tên nhân viên
-     * @return Trả về  đối tượng DataInfoPageForJson gồm [TottalRecord,ToltalPage,Data] và được tự động convert thành json qua @Restcontroller.
-     * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
-     * }
-     */
+	 * @author Nguyễn Văn Đông created_date: 06/06/2023 {@summary} Lấy ra danh sách
+	 *         List<Employee> theo page và filter (Mã nhân viên hoặc tên nhân viên)
+	 *
+	 * @param pageSize       - số lượng record trên 1 trang
+	 * @param pageNumber     - số page hiện tại
+	 * @param employeeFilter - giá trị của employeeFilter có thể là mã nhân viên
+	 *                       hoặc tên nhân viên
+	 * @return Trả về đối tượng DataInfoPageForJson gồm
+	 *         [TottalRecord,ToltalPage,Data] và được tự động convert thành json
+	 *         qua @Restcontroller.
+	 * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
+	 *             }
+	 */
 	@GetMapping(UrlConstant.GET_EMPLOYEE_DATA)
-	@Operation(description = "Lấy  danh sách nhân viên theo page",summary = "Lấy  danh sách nhân viên theo page")
+	@Operation(description = "Lấy  danh sách nhân viên theo page", summary = "Lấy  danh sách nhân viên theo page")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> filerWithPagationAndFilter(
-			@RequestParam(name = "pageSize",required = false,defaultValue = "10") int pageSize,
-			@RequestParam(name = "pageNumber",required = false,defaultValue = "1" ) int pageNumber,
-			@RequestParam(name = "employeeFilter",required = false, defaultValue = "") String employeeFilter
-			){
-		
-		
-		try {
-		Optional<Page<Employee>> pageEmployees=employeeService.findEntitiesByFilter(pageSize,pageNumber, employeeFilter,new ArrayList<String>(Arrays.asList("employeeCode","employeeName")));
-		if(pageEmployees.isPresent()) {
-			List<EmployeeDto> listEmpDto=new ArrayList<EmployeeDto>();
-			pageEmployees.get().getContent().forEach(e-> listEmpDto.add(employeeConvert.convertToDto(e)));
-			DataInfPageForJson<EmployeeDto> data=new DataInfPageForJson<EmployeeDto>(pageEmployees.get().getTotalPages(), pageEmployees.get().getTotalElements(), listEmpDto);
-			return ResponseEntity.ok(data);
-		}else {
-			return ResponseEntity.ok(UserMessageConstant.ERROR_GET_DATA_EMPLOYEE);
-		}
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), UserMessageConstant.ERROR_USER);
-			return ResponseEntity.badRequest().body(json);
-		}
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+			@RequestParam(name = "employeeFilter", required = false, defaultValue = "") String employeeFilter) {
+		Optional<Page<Employee>> pageEmployees = employeeService.findEntitiesByFilter(pageSize, pageNumber,
+				employeeFilter, new ArrayList<String>(Arrays.asList("employeeCode", "employeeName")));
+		List<EmployeeDto> listDto = new ArrayList<EmployeeDto>();
+		pageEmployees.get().getContent().forEach(e -> listDto.add(employeeConvert.convertToDto(e)));
+		return resListData(listDto, pageEmployees.get().getTotalPages(), pageEmployees.get().getTotalElements());
 	}
-	
 
-	 /**
+	/**
 	 * 
-    * @author Nguyễn Văn Đông
-    * created_date: 08/06/2023
-    * {@summary}
-    * Thêm nhân viên 
-{    *
-    * 
-    * @return true or false
-    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
-    * }
-    */
+	 * @author Nguyễn Văn Đông created_date: 08/06/2023 {@summary} Thêm nhân viên {
+	 *         *
+	 * 
+	 * @return true or false
+	 * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
+	 *             }
+	 */
 	@PostMapping(UrlConstant.CREATE_EMPLOYEE)
-	@Operation(description = "Thêm nhân viên",summary = "Thêm nhân viên vào DB")
-	public ResponseEntity<?> insertEmployee(@RequestBody @Valid EmployeeDto employeeDto){
-		try {
-			Optional<Employee> empCheck=Optional.ofNullable(employeeService.findByEmployeeCode(employeeDto.getEmployeeCode()));
-			if(!empCheck.isEmpty()) {
-				employeeService.saveOrUpdate(employeeDto);
-				return ResponseEntity.ok(true);
-			}else {
-				
-				return ResponseEntity.ok(false);
-			}
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
-			return ResponseEntity.badRequest().body(json);
-		}
-	}
-	 /**
-		 * 
-	    * @author Nguyễn Văn Đông
-	    * created_date: 08/06/2023
-	    * {@summary}
-	    * Sửa nhân viên 
-	    *
-	    * 
-	    * @return 
-	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
-	    * }
-	    */
-		@PutMapping(UrlConstant.UPDATE_EMPLOYEE)
-		@Operation(description = "Sửa nhân viên",summary = "Sửa nhân viên vào DB")
-		public ResponseEntity<?> updatetEmployee(@RequestBody EmployeeDto employeeDto){
-			try {
-				System.out.println("edit");
-				boolean check=employeeService.saveOrUpdate(employeeDto);
-				return ResponseEntity.ok(check);
-			}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
-				return ResponseEntity.badRequest().body(json);
-			}
-		}
-	 /**
-		 * 
-	    * @author Nguyễn Văn Đông
-	    * created_date: 08/06/2023
-	    * Tạo mã nhân viên mới(EmployeeCode)  theo cách :lấy mã nhân viên tạo gần nhất theo created date
-	    * tách phần số và cộng thêm 1 => mã nhân viên mới
-	    * 
-	    * @return trả về mã nhân viên mới
-	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
-	    * }
-	    */
-		@GetMapping(UrlConstant.GET_NEW_EMPLOYEE_CODE)
-		@Operation(description = "Tạo mã  nhân viên mới ",summary = "Tạo mã nhân viên mới")
-		public ResponseEntity<?> getNewEmployeeCode(){
-			try {
-				
-				return ResponseEntity.ok(employeeService.generateEmployeeCode());
-			}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
-				return ResponseEntity.badRequest().body(json);
-			}
-		}
-		
-		 /**
-		 * 
-	    * @author Nguyễn Văn Đông
-	    * created_date: 08/06/2023
-	    * 
-	    * {@summary}
-	    * Xóa nhân viên theo ID
-	    * 
-	    * 
-	    * @return statuscode=200 thành công
-	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
-	    * }
-	    */
-		@DeleteMapping(UrlConstant.DELETE_BY_EMPLOYEE_ID)
-		@Operation(description = "Xóa nhân viên ",summary = "Xóa nhân viên theo id")
-		public ResponseEntity<?> deleteEmployeeById(@PathVariable(name="employeeId") int employeeId){
-			try {
-				
-				return ResponseEntity.ok(employeeService.deleteById(employeeId));
-			}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(), UserMessageConstant.ERROR_USER);
-				return ResponseEntity.badRequest().body(json);
-			}
-		}
-		 /**
-		 * 
-	    * @author Nguyễn Văn Đông
-	    * created_date: 10/06/2023
-	    * 
-	    * {@summary}
-	    * Xuất danh sách nhân viên theo pageSize,pageNumber,employeeFilter
-	    * 
-	    * 
-	    * @return statuscode=201 thành công
-	    * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
-	    * }
-	    */
-		@Operation(description = "Export excel danh sách nhân viên",summary = "Export excel danh sách nhân viên")
-		@GetMapping(UrlConstant.EXPORT_EXCEL)
-	    public ResponseEntity<?> exportExcel(HttpServletResponse response,
-	    		@RequestParam(name = "pageSize",required = false,defaultValue = "10") int pageSize,
-	    		@RequestParam(name = "pageNumber",required = false,defaultValue = "1" ) int pageNumber,
-	    		@RequestParam(name="employeeFilter",required = false, defaultValue = "") String employeeFilter) 
-	    		throws IOException {
-			//set response
-			try {
-				//set header
-				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				HttpHeaders header = new HttpHeaders();
-				// dùng để test API qua post man hoặc swager
-		        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-		        String fileType = "attachment; filename=employee_details_" + dateFormat.format(new Date()) + ".xls";
-		        header.setContentType(new MediaType("application", "force-download"));
-		        header.set(HttpHeaders.CONTENT_DISPOSITION, fileType);
-		        
-		        // lay du lieu
-		        Optional<Page<Employee>> pageEmployees=employeeService.findEntitiesByFilter(pageSize,pageNumber, employeeFilter,new ArrayList<String>());
-				List<EmployeeDto> listEmpDto=new ArrayList<EmployeeDto>();
-				pageEmployees.get().getContent().forEach(e-> listEmpDto.add(employeeConvert.convertToDto(e)));
-				
-				return new ResponseEntity<>(employeeService.exportExcelEmployee(stream, listEmpDto),header, HttpStatus.CREATED);
-			
-			}catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-				JsonForErrorMessage json=new JsonForErrorMessage(e.getMessage(),  UserMessageConstant.ERROR_USER);
-				return ResponseEntity.badRequest().body(json);
-			}
-	    }
-		
-		@GetMapping(UrlConstant.IMPORT_EXCEL)
-	    public void importExcel(HttpServletResponse response) throws IOException {
-			
-	        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-	        String fileType = "attachment; filename=employee_details_" + dateFormat.format(new Date()) + ".xls";
-	        response.setHeader("Content-Disposition", fileType);
-	        response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+	@Operation(description = "Thêm nhân viên", summary = "Thêm nhân viên vào DB")
+	@ResponseStatus(HttpStatus.OK)
+	public Boolean insertEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
+		return employeeService.save(employeeDto);
 
-	        //employeeService.exportExcelEmployee(response, employeeService.findAllEmployee());
-	    }
+	}
+
+	/**
+	 * 
+	 * @author Nguyễn Văn Đông created_date: 08/06/2023 {@summary} Sửa nhân viên
+	 *
+	 * 
+	 * @return
+	 * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
+	 *             }
+	 */
+	@PutMapping(UrlConstant.UPDATE_EMPLOYEE)
+	@ResponseStatus(HttpStatus.OK)
+	@Operation(description = "Sửa nhân viên", summary = "Sửa nhân viên vào DB")
+	public Boolean updatetEmployee(@RequestBody EmployeeDto employeeDto) {
+
+		return employeeService.update(employeeDto);
+
+//			}catch (Exception e) {
+//				// TODO: handle exception
+//				e.printStackTrace();
+//				return resError(e.getMessage(), UserMessageConstant.ERROR_USER);
+//			}
+	}
+
+	/**
+	 * 
+	 * @author Nguyễn Văn Đông created_date: 08/06/2023 Tạo mã nhân viên
+	 *         mới(EmployeeCode) theo cách :lấy mã nhân viên tạo gần nhất theo
+	 *         created date tách phần số và cộng thêm 1 => mã nhân viên mới
+	 * 
+	 * @return trả về mã nhân viên mới
+	 * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
+	 *             }
+	 */
+	@GetMapping(UrlConstant.GET_NEW_EMPLOYEE_CODE)
+
+	@Operation(description = "Tạo mã  nhân viên mới ", summary = "Tạo mã nhân viên mới")
+	public String getNewEmployeeCode() {
+
+		return (employeeService.generateEmployeeCode());
+
+	}
+
+	/**
+	 * 
+	 * @author Nguyễn Văn Đông created_date: 08/06/2023
+	 * 
+	 *         {@summary} Xóa nhân viên theo ID
+	 * 
+	 * 
+	 * @return statuscode=200 thành công
+	 * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
+	 *             }
+	 */
+	@DeleteMapping(UrlConstant.DELETE_BY_EMPLOYEE_ID)
+	@ResponseStatus(HttpStatus.OK)
+	@Operation(description = "Xóa nhân viên ", summary = "Xóa nhân viên theo id")
+	public int deleteEmployeeById(@PathVariable(name = "employeeId") int employeeId) {
+
+		return (employeeService.deleteById(employeeId));
+
+	}
+
+	/**
+	 * 
+	 * @author Nguyễn Văn Đông created_date: 10/06/2023
+	 * 
+	 *         {@summary} Xuất danh sách nhân viên theo
+	 *         pageSize,pageNumber,employeeFilter
+	 * 
+	 * 
+	 * @return statuscode=201 thành công
+	 * @throws khi thực hiện không thành công và trả về message gồm: devMsg,userMsg
+	 *             }
+	 */
+	@Operation(description = "Export excel danh sách nhân viên", summary = "Export excel danh sách nhân viên")
+	@GetMapping(UrlConstant.EXPORT_EXCEL)
+	public ResponseEntity<?> exportExcel(HttpServletResponse response,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(name = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+			@RequestParam(name = "employeeFilter", required = false, defaultValue = "") String employeeFilter)
+			throws IOException {
+		// set response
+
+		// set header
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		HttpHeaders header = new HttpHeaders();
+		// dùng để test API qua post man hoặc swager
+		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+		String fileType = "attachment; filename=employee_details_" + dateFormat.format(new Date()) + ".xls";
+		header.setContentType(new MediaType("application", "force-download"));
+		header.set(HttpHeaders.CONTENT_DISPOSITION, fileType);
+
+		// lay du lieu
+		Optional<Page<Employee>> pageEmployees = employeeService.findEntitiesByFilter(pageSize, pageNumber,
+				employeeFilter, new ArrayList<String>());
+		List<EmployeeDto> listEmpDto = new ArrayList<EmployeeDto>();
+		pageEmployees.get().getContent().forEach(e -> listEmpDto.add(employeeConvert.convertToDto(e)));
+
+		return new ResponseEntity<>(employeeService.exportExcelEmployee(stream, listEmpDto), header,
+				HttpStatus.CREATED);
+
+	}
+
+	@GetMapping(UrlConstant.IMPORT_EXCEL)
+	public void importExcel(HttpServletResponse response) throws IOException {
+
+		DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+		String fileType = "attachment; filename=employee_details_" + dateFormat.format(new Date()) + ".xls";
+		response.setHeader("Content-Disposition", fileType);
+		response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+
+		// employeeService.exportExcelEmployee(response,
+		// employeeService.findAllEmployee());
+	}
 }

@@ -1,0 +1,77 @@
+2023-07-03 09:49:26.432  INFO 13488 --- [restartedMain] com.amis.misa.StartServer                : Starting StartServer on DESKTOP-SSA9FFG with PID 13488 (C:\Users\0961011310\eclipse-workspace\ManagerEmployee\target\classes started by 0961011310 in C:\Users\0961011310\eclipse-workspace\ManagerEmployee)
+2023-07-03 09:49:26.432  INFO 13488 --- [restartedMain] com.amis.misa.StartServer                : No active profile set, falling back to default profiles: default
+2023-07-03 09:49:26.966  INFO 13488 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2023-07-03 09:49:27.025  INFO 13488 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56ms. Found 4 repository interfaces.
+2023-07-03 09:49:27.123  INFO 13488 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b998896c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-07-03 09:49:27.322  INFO 13488 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8085 (http)
+2023-07-03 09:49:27.328  INFO 13488 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-07-03 09:49:27.328  INFO 13488 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.17]
+2023-07-03 09:49:27.355  INFO 13488 --- [restartedMain] o.a.c.c.C.[Tomcat-4].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2023-07-03 09:49:27.356  INFO 13488 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 920 ms
+2023-07-03 09:49:27.390  INFO 13488 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Starting...
+2023-07-03 09:49:27.434  INFO 13488 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Start completed.
+2023-07-03 09:49:27.871  INFO 13488 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-03 09:49:28.016  INFO 13488 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-07-03 09:49:28.090  WARN 13488 --- [restartedMain] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-03 09:49:28.142  INFO 13488 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1a908c75, org.springframework.security.web.context.SecurityContextPersistenceFilter@550cac4b, org.springframework.security.web.header.HeaderWriterFilter@2946d334, org.springframework.web.filter.CorsFilter@6427167b, org.springframework.security.web.authentication.logout.LogoutFilter@592de6af, com.amis.misa.filter.JWTAuthenticationFilter@73d17d5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1460943d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@ba02af6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@49fd043e, org.springframework.security.web.session.SessionManagementFilter@210e7a2f, org.springframework.security.web.access.ExceptionTranslationFilter@5f53cfd8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@56c77018]
+2023-07-03 09:49:28.201  INFO 13488 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2023-07-03 09:49:28.225  WARN 13488 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2023-07-03 09:49:28.292  INFO 13488 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8085 (http) with context path ''
+2023-07-03 09:49:28.293  INFO 13488 --- [restartedMain] com.amis.misa.StartServer                : Started StartServer in 2.065 seconds (JVM running for 1957.512)
+2023-07-03 09:49:28.296  INFO 13488 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2023-07-03 09:49:30.849  INFO 13488 --- [http-nio-8085-exec-2] o.a.c.c.C.[Tomcat-4].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-03 09:49:30.850  INFO 13488 --- [http-nio-8085-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-07-03 09:49:30.854  INFO 13488 --- [http-nio-8085-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2023-07-03 09:49:30.901  INFO 13488 --- [http-nio-8085-exec-2] c.a.m.exception.ExceptionHandlerAdvice   : Khong lay duoc du lieu
+2023-07-03 09:49:30.904  WARN 13488 --- [http-nio-8085-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.amis.misa.exception.NotFoundException]
+2023-07-03 09:52:15.679  INFO 13488 --- [Thread-71] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2023-07-03 09:52:15.806  INFO 13488 --- [Thread-71] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-07-03 09:52:16.029  INFO 13488 --- [Thread-71] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown initiated...
+2023-07-03 09:52:16.194  INFO 13488 --- [Thread-71] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown completed.
+"2023-07-03 [restartedMain] INFO  com.amis.misa.StartServer - Starting StartServer on DESKTOP-SSA9FFG with PID 13488 (C:\Users\0961011310\eclipse-workspace\ManagerEmployee\target\classes started by 0961011310 in C:\Users\0961011310\eclipse-workspace\ManagerEmployee)
+""2023-07-03 [restartedMain] INFO  com.amis.misa.StartServer - No active profile set, falling back to default profiles: default
+""2023-07-03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+""2023-07-03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 101ms. Found 4 repository interfaces.
+""2023-07-03 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b998896c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+""2023-07-03 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+""2023-07-03 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+""2023-07-03 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.17]
+""2023-07-03 [restartedMain] INFO  o.a.c.c.C.[Tomcat-4].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+""2023-07-03 [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1426 ms
+""2023-07-03 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Starting...
+""2023-07-03 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Start completed.
+""2023-07-03 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2023-07-03 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+""2023-07-03 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2023-07-03 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4dfafa8a, org.springframework.security.web.context.SecurityContextPersistenceFilter@580a31f0, org.springframework.security.web.header.HeaderWriterFilter@7a89a9f4, org.springframework.web.filter.CorsFilter@6f6b1523, org.springframework.security.web.authentication.logout.LogoutFilter@14975452, com.amis.misa.filter.JWTAuthenticationFilter@4dc86735, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@232c1220, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@145dc9b8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13d3f3e7, org.springframework.security.web.session.SessionManagementFilter@1f63f534, org.springframework.security.web.access.ExceptionTranslationFilter@7d70c5b4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@668ec0d8]
+""2023-07-03 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+""2023-07-03 [restartedMain] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+""2023-07-03 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+""2023-07-03 [restartedMain] INFO  com.amis.misa.StartServer - Started StartServer in 3.6 seconds (JVM running for 2130.996)
+""2023-07-03 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+""2023-07-03 [Thread-77] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+""2023-07-03 [Thread-77] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+""2023-07-03 [Thread-77] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown initiated...
+""2023-07-03 [Thread-77] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown completed.
+""2023-07-03 [restartedMain] INFO  com.amis.misa.StartServer - Starting StartServer on DESKTOP-SSA9FFG with PID 13488 (C:\Users\0961011310\eclipse-workspace\ManagerEmployee\target\classes started by 0961011310 in C:\Users\0961011310\eclipse-workspace\ManagerEmployee)
+""2023-07-03 [restartedMain] INFO  com.amis.misa.StartServer - No active profile set, falling back to default profiles: default
+""2023-07-03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+""2023-07-03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53ms. Found 4 repository interfaces.
+""2023-07-03 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b998896c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+""2023-07-03 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+""2023-07-03 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+""2023-07-03 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.17]
+""2023-07-03 [restartedMain] INFO  o.a.c.c.C.[Tomcat-4].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+""2023-07-03 [restartedMain] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 781 ms
+""2023-07-03 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Starting...
+""2023-07-03 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Start completed.
+""2023-07-03 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2023-07-03 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+""2023-07-03 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+""2023-07-03 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@40337ba, org.springframework.security.web.context.SecurityContextPersistenceFilter@6ffc96c3, org.springframework.security.web.header.HeaderWriterFilter@1aeca4b9, org.springframework.web.filter.CorsFilter@7243b332, org.springframework.security.web.authentication.logout.LogoutFilter@dd71f8d, com.amis.misa.filter.JWTAuthenticationFilter@46b45e7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@8a001dd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7716b51c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3ba8bd27, org.springframework.security.web.session.SessionManagementFilter@59446ffc, org.springframework.security.web.access.ExceptionTranslationFilter@4eb521c0, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6caac97d]
+""2023-07-03 [restartedMain] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+""2023-07-03 [restartedMain] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+""2023-07-03 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+""2023-07-03 [restartedMain] INFO  com.amis.misa.StartServer - Started StartServer in 1.739 seconds (JVM running for 2322.892)
+""2023-07-03 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+"

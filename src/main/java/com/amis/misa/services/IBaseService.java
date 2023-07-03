@@ -14,6 +14,7 @@ public interface IBaseService <E extends BaseEntity, ID extends Serializable,K e
 	public Optional<E> findById(ID id);
 	public List<K> findAll();
 	public int deleteById(ID id);
-	public boolean saveOrUpdate(K dto);
+	public boolean save(K dto);
+	public boolean update(K dto);
 	public Optional<Page<E>> findEntitiesByFilter(Integer pageSize,Integer pageNumber,@Nullable String filter,@Nullable List<String> prop);
 }
