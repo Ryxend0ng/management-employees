@@ -16,7 +16,7 @@ import com.amis.misa.constants.UrlConstant;
 import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.DepartmentDto;
 import com.amis.misa.dto.JsonForErrorMessage;
-import com.amis.misa.entities.Department;
+import com.amis.misa.entities.app.Department;
 import com.amis.misa.services.IDepartmentService;
 
 import io.swagger.v3.oas.annotations.Operation;

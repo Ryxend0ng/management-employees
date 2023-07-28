@@ -1,7 +1,10 @@
 package com.amis.misa.controller.versions.v1;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -20,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.amis.misa.annotation.RestApiV1;
 import com.amis.misa.constants.UrlConstant;
@@ -42,7 +48,8 @@ import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.DataInfPageForJson;
 import com.amis.misa.dto.EmployeeDto;
 import com.amis.misa.dto.JsonForErrorMessage;
-import com.amis.misa.entities.Employee;
+import com.amis.misa.dto.SearchAndSortEmployeeDto;
+import com.amis.misa.entities.app.Employee;
 import com.amis.misa.services.IEmployeeService;
 import com.amis.misa.services.impl.CustomUserDetailsService;
 
@@ -221,5 +228,36 @@ public class EmployeeController extends BaseController<Employee, EmployeeDto> {
 
 		// employeeService.exportExcelEmployee(response,
 		// employeeService.findAllEmployee());
+	}
+
+	@PostMapping(UrlConstant.SEARCH_AND_SORT_EMPLOYEEE)
+	@Operation(description = "Sap xep hoac tim kiem theo combox", summary = "Sap xep hoac tim kiem theo combox")
+	public ResponseEntity<?> searchAndSortEmployee(@RequestBody SearchAndSortEmployeeDto searchSortDto) {
+		return ResponseEntity.ok(employeeService.sortWithMultipeConditional(searchSortDto));
+
+	}
+
+	@PostMapping(UrlConstant.QR_CODE)
+	@Operation(description = "trả về mã qr code", summary = "trả về mã qr code")
+	public void generateQrCode(@RequestBody EmployeeDto empDto,HttpServletResponse response) {
+		response.setContentType("image/png");
+		try {
+			OutputStream outputStream=response.getOutputStream();
+			outputStream.write(employeeService.generateQrCode(empDto));
+			outputStream.flush();
+			outputStream.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@PostMapping(value=UrlConstant.SCAN_QR_CODE,consumes =  MediaType.IMAGE_PNG_VALUE)
+	@Operation(description = "quét mã qr code", summary = "quét mã qr code")
+	public String scanImageQrCode(HttpServletRequest request) throws IOException {
+		int a=1;
+		InputStream input= request.getInputStream();
+		return employeeService.scanQrCode(input);
 	}
 }

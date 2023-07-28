@@ -21,9 +21,9 @@ import com.amis.misa.dto.BaseDto;
 import com.amis.misa.dto.DataInfPageForJson;
 import com.amis.misa.dto.EmployeeDto;
 import com.amis.misa.dto.JsonForErrorMessage;
-import com.amis.misa.entities.AccountEmployee;
-import com.amis.misa.entities.BaseEntity;
-import com.amis.misa.entities.Employee;
+import com.amis.misa.entities.app.AccountEmployee;
+import com.amis.misa.entities.app.BaseEntity;
+import com.amis.misa.entities.app.Employee;
 
 
 

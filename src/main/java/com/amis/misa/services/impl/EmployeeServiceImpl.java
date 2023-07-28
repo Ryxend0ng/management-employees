@@ -2,12 +2,14 @@ package com.amis.misa.services.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import javax.validation.Valid;
 
 import org.apache.poi.ss.usermodel.*;
@@ -21,13 +23,18 @@ import com.amis.misa.constants.DevMessageConstant;
 import com.amis.misa.constants.UserMessageConstant;
 import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.EmployeeDto;
-import com.amis.misa.entities.Employee;
+import com.amis.misa.dto.SearchAndSortEmployeeDto;
+import com.amis.misa.dto.SearchCriteriaDto;
+import com.amis.misa.entities.app.Employee;
 import com.amis.misa.exception.AppException;
 import com.amis.misa.exception.CustomIOException;
 import com.amis.misa.exception.NotFoundException;
+import com.amis.misa.helper.ZXingHelper;
 import com.amis.misa.repositories.EmployeeRepository;
 import com.amis.misa.services.IEmployeeService;
 import com.amis.misa.specifications.EmployeeSpecification;
+import com.google.zxing.ChecksumException;
+import com.google.zxing.FormatException;
 
 @Service
 public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Integer, EmployeeRepository, EmployeeDto>
@@ -55,7 +62,6 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Integer, Empl
 	}
 
 	@Override
-	@Transactional
 	public boolean save(@Valid EmployeeDto employeeDto) {
 		// TODO Auto-generated method stub
 		Optional<Employee> empCheck = Optional
@@ -73,7 +79,6 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Integer, Empl
 	}
 
 	@Override
-	@Transactional
 	public boolean update(@Valid EmployeeDto employeeDto) {
 		// TODO Auto-generated method stub
 		Optional<Employee> empCheck = (employeeRepo.findById(employeeDto.getId()));
@@ -211,6 +216,26 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Integer, Empl
 	public List<Employee> findAll(Specification<Employee> entityByColumn) {
 		// TODO Auto-generated method stub
 		return employeeRepo.findAll(entityByColumn);
+	}
+
+	@Override
+	public List<Employee> sortWithMultipeConditional(SearchAndSortEmployeeDto dto) {
+		// TODO Auto-generated method stub
+		
+		return employeeRepo.findAll(employeeSpecification.sortWithMultipeConditional(dto));
+	}
+
+	@Override
+	public byte[] generateQrCode(EmployeeDto empCode) {
+		// TODO Auto-generated method stub
+		
+		return ZXingHelper.getQRCodeImage(empCode, 100, 100);
+	}
+
+	@Override
+	public String scanQrCode(InputStream input) {
+		return ZXingHelper.readQRCode(input);
+		
 	}
 
 }

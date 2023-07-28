@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 
 import com.amis.misa.dto.BaseDto;
-import com.amis.misa.entities.BaseEntity;
+import com.amis.misa.entities.app.BaseEntity;
 
 public interface IBaseService <E extends BaseEntity, ID extends Serializable,K extends BaseDto>{
 	public Optional<E> findById(ID id);

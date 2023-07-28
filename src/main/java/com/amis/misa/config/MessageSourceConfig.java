@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 @Configuration
 public class MessageSourceConfig {
 	 @Bean
@@ -20,5 +21,12 @@ public class MessageSourceConfig {
 	    LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 	    bean.setValidationMessageSource(messageSource());
 	    return bean;
+	  }
+	  
+	  @Bean
+	  public CommonsMultipartResolver commonsMultipartResolver() {
+	      CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+	      commonsMultipartResolver.setMaxUploadSize(-1);
+	      return commonsMultipartResolver;
 	  }
 }

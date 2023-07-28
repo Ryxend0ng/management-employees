@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import com.amis.misa.entities.AccountEmployee;
+import com.amis.misa.entities.app.AccountEmployee;
 import com.amis.misa.services.impl.CustomUserDetailsService;
 
 import io.jsonwebtoken.Claims;

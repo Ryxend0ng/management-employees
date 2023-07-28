@@ -1,4 +1,4 @@
-package com.amis.misa.entities;
+package com.amis.misa.entities.app;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +28,7 @@ public class Position extends BaseEntity{
 	@Column(name = "positionName", nullable = true)
 	String positionName;
 	
-	@OneToMany(mappedBy = "position",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Employee> emList=new ArrayList<Employee>();
 	
-	public void addEmployee(Employee employee) {
-		emList.add(employee);
-		employee.setPosition(this);
-	}
-	public void removeEmployee(Employee employee) {
-		emList.remove(employee);
-		employee.setPosition(null);
-	}
+	
+
 }

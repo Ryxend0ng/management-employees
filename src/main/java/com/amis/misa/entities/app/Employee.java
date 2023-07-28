@@ -1,4 +1,4 @@
-package com.amis.misa.entities;
+package com.amis.misa.entities.app;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -94,20 +94,21 @@ public class Employee extends BaseEntity {
 	@JoinColumn(name = "department_id",referencedColumnName = "id")
 	private Department department;
 	
-	@OneToMany(mappedBy = "employee")
-	public List<BonusEmployee> listBe=new ArrayList<BonusEmployee>();
-	
-	public void addBonusEmployee(BonusEmployee be) {
-		listBe.add(be);
-		be.setEmployee(this);
-	}
-	public void removeBonusEmployee(BonusEmployee be) {
-		listBe.remove(be);
-		be.setEmployee(null);
-	}
+//	@OneToMany(mappedBy = "employee")
+//	public List<BonusEmployee> listBe=new ArrayList<BonusEmployee>();
+//	
+//	public void addBonusEmployee(BonusEmployee be) {
+//		listBe.add(be);
+//		be.setEmployee(this);
+//	}
+//	public void removeBonusEmployee(BonusEmployee be) {
+//		listBe.remove(be);
+//		be.setEmployee(null);
+//	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "position_id")
+	@Fetch(FetchMode.JOIN)
+	@JoinColumn(name = "position_id",referencedColumnName = "id")
 	private Position position;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -118,16 +119,16 @@ public class Employee extends BaseEntity {
 	@JoinColumn(name = "overtime_id")
 	private Overtime overTime;
 	
-	@OneToMany(mappedBy = "employee")
-	public List<TimeKeeping> listTimeKeep=new ArrayList<TimeKeeping>();
-	
-	public void addTimeKeeping(TimeKeeping tk) {
-		listTimeKeep.add(tk);
-		tk.setEmployee(this);
-	}
-	public void removeTimeKeeping(TimeKeeping tk) {
-		listTimeKeep.remove(tk);
-		tk.setEmployee(null);
-	}
+//	@OneToMany(mappedBy = "employee")
+//	public List<TimeKeeping> listTimeKeep=new ArrayList<TimeKeeping>();
+//	
+//	public void addTimeKeeping(TimeKeeping tk) {
+//		listTimeKeep.add(tk);
+//		tk.setEmployee(this);
+//	}
+//	public void removeTimeKeeping(TimeKeeping tk) {
+//		listTimeKeep.remove(tk);
+//		tk.setEmployee(null);
+//	}
 	
 }

@@ -1,4 +1,4 @@
-package com.amis.misa.entities;
+package com.amis.misa.entities.app;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

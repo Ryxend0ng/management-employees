@@ -1,4 +1,4 @@
-package com.amis.misa.entities;
+package com.amis.misa.entities.app;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +36,17 @@ public class Department extends BaseEntity{
 	@Column(name = "departmentCode", nullable = false)
 	private String departmentCode;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.JOIN)
+	private List<Employee> emList=new ArrayList<Employee>();
 	
-//	@OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@Fetch(FetchMode.JOIN)
-//	private List<Employee> emList=new ArrayList<Employee>();
-	
-//	public void addEmployee(Employee employee) {
-//		emList.add(employee);
-//		employee.setDepartment(this);
-//	}
-//	public void removeEmployee(Employee employee) {
-//		emList.remove(employee);
-//		employee.setDepartment(null);
-//	}
+	public void addEmployee(Employee employee) {
+		emList.add(employee);
+		employee.setDepartment(this);
+	}
+	public void removeEmployee(Employee employee) {
+		emList.remove(employee);
+		employee.setDepartment(null);
+	}
 }

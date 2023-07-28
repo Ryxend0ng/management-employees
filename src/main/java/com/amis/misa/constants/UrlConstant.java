@@ -11,6 +11,9 @@ public class UrlConstant {
 	 public static final String DELETE_BY_EMPLOYEE_ID = PREFIX_EMPLOYEES+"/{employeeId}";
 	 public static final String EXPORT_EXCEL = PREFIX_EMPLOYEES+"/exportExcel";
 	 public static final String IMPORT_EXCEL = PREFIX_EMPLOYEES+"/importExcel";
+	 public static final String SEARCH_AND_SORT_EMPLOYEEE=PREFIX_EMPLOYEES+"/search_sort";
+	 public static final String QR_CODE=PREFIX_EMPLOYEES+"/qr-code";
+	 public static final String SCAN_QR_CODE=PREFIX_EMPLOYEES+"/scan/qr-code";
 	 
 	 //url for department
 	 public static final String PREFIX_DEPARTMENTS = "/Departments";

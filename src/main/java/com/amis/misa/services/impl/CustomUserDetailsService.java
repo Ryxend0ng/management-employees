@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.amis.misa.constants.DevMessageConstant;
-import com.amis.misa.entities.AccountEmployee;
-import com.amis.misa.entities.Employee;
+import com.amis.misa.entities.app.AccountEmployee;
+import com.amis.misa.entities.app.Employee;
 import com.amis.misa.exception.NotFoundException;
 import com.amis.misa.repositories.AccountEmployeeRepository;
 import com.amis.misa.services.IEmployeeService;

@@ -3,14 +3,25 @@ package com.amis.misa.specifications;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import com.amis.misa.dto.SearchCriteriaDto;
-import com.amis.misa.entities.BaseEntity;
+import com.amis.misa.entities.app.BaseEntity;
+import com.amis.misa.entities.app.Employee;
 import com.amis.misa.enums.SearchCriteriaEnum;
 
 @Component
@@ -19,12 +30,45 @@ public class BaseSpecification <E extends BaseEntity>{
 	// lay du lieu loc theo filter
 	public  Specification<E> findByFilter(String filter,List<String> properties ){
 		return (root,query,cb)->{
-			List<Predicate> predicate= new ArrayList<>();
+			List<Predicate> predicates= properties.stream()
+					.map(prop->cb.like(root.get(prop),"%"+filter+"%"))
+					.collect(Collectors.toList());
 			
-			for (String prop : properties) {
-				predicate.add(cb.like(root.get(prop),"%"+filter+"%"));
-			}			
-			return cb.or(predicate.toArray(new Predicate[] {}));
+//			for (String prop : properties) {
+//				predicate.add(cb.like(root.get(prop),"%"+filter+"%"));
+//			}			
+			return cb.or(predicates.toArray(new Predicate[] {}));
+			
+		};
+	}
+	public  Specification<E> findByFilter(Map<String,Optional<String>> map ){
+		return (root,query,cb)->{
+//			for (Map.Entry<String, String> entry : map.entrySet()) {
+//				String prop=entry.getKey();
+//				String valueProp=entry.getValue();
+//				if(StringUtils.isNotBlank(valueProp)) {
+//				if(prop.equals("status")) {
+//					predicate.add(cb.equal(root.get(prop),Boolean.valueOf(valueProp)));
+//				}else {
+//					predicate.add(cb.equal(root.get(prop),valueProp));
+//				}
+//				}
+//				
+//			}	
+			List<Predicate> predicates  =map.entrySet()
+					.stream()
+					.filter(entry->StringUtils.isNotBlank(entry.getValue().get()))
+					.map(entry -> {
+						if(entry.getKey().equals("status")) {
+							return (cb.equal(root.get(entry.getKey()),Boolean.valueOf(entry.getValue().get())));
+						}
+						else {
+							return (cb.equal(root.get(entry.getKey()),(entry.getValue().get())));
+							}
+					})
+					.collect(Collectors.toList());
+					
+			return cb.and(predicates.toArray(new Predicate[] {}));
 			
 		};
 	}
@@ -70,5 +114,7 @@ public class BaseSpecification <E extends BaseEntity>{
 				}
 			};
 		}
-		
+		public Predicate convertToPredicate(Supplier< Specification<E>> func,CriteriaBuilder cb,Root<E> root,CriteriaQuery<?> query) {
+			return func.get().toPredicate(root, query, cb);					
+		}
 }

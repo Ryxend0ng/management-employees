@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.amis.misa.dto.BaseDto;
-import com.amis.misa.entities.BaseEntity;
+import com.amis.misa.entities.app.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

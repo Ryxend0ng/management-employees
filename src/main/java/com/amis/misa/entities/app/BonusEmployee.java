@@ -1,10 +1,12 @@
-package com.amis.misa.entities;
+package com.amis.misa.entities.app;
 
+import java.time.LocalDate;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +20,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name ="time_keeping")
-public class TimeKeeping extends BaseEntity{
-	private String time;
+public class BonusEmployee extends BaseEntity{
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Column(name = "bonusName", nullable = true)
+	String bonusName;
+	
+	@ManyToOne( fetch = FetchType.LAZY)
+	@JoinColumn(name = "bonus_id")
+	private Bonus bonus;
+	
+	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
 }

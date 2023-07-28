@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amis.misa.dto.SearchCriteriaDto;
-import com.amis.misa.entities.Employee;
+import com.amis.misa.entities.app.Employee;
 import com.amis.misa.services.IEmployeeService;
 import com.amis.misa.services.impl.EmployeeServiceImpl;
 import com.amis.misa.specifications.BaseSpecification;

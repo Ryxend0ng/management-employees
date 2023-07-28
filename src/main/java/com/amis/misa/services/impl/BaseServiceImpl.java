@@ -6,19 +6,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 
 import com.amis.misa.constants.UserMessageConstant;
 import com.amis.misa.converter.ObjectConvert;
 import com.amis.misa.dto.BaseDto;
 import com.amis.misa.dto.EmployeeDto;
-import com.amis.misa.entities.BaseEntity;
+import com.amis.misa.entities.app.BaseEntity;
 import com.amis.misa.exception.NotFoundException;
 import com.amis.misa.repositories.BaseRepository;
 import com.amis.misa.services.IBaseService;
@@ -46,7 +48,6 @@ public class BaseServiceImpl<E extends BaseEntity, ID extends Serializable, R ex
 	}
 
 	@Override
-	@Transactional
 	public int deleteById(ID id) {
 		// TODO Auto-generated method stub
 	    if(repository.findById(id).isPresent()) { 

@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.amis.misa.entities.AccountEmployee;
+import com.amis.misa.entities.app.AccountEmployee;
 import com.amis.misa.filter.JWTAuthenticationFilter;
 import com.amis.misa.services.impl.CustomUserDetailsService;
 

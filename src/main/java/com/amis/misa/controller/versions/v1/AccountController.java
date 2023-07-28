@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.amis.misa.annotation.RestApiV1;
 import com.amis.misa.constants.UrlConstant;
-import com.amis.misa.entities.AccountEmployee;
+import com.amis.misa.entities.app.AccountEmployee;
 import com.amis.misa.filter.JwtTokenprovider;
 import com.amis.misa.repositories.AccountEmployeeRepository;
 import com.amis.misa.services.impl.CustomUserDetailsService;
